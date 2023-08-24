@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}RRS - Contact Form {% endblock title %}
+{% block contactactive %}active{% endblock contactactive %}
+{% block style %}
+.look{
+    margin-left: 0px;
+    margin-right: 0px;
+    border-right: 2px solid white;
+    color:white;
+}
+body{
+    background-image: linear-gradient(to right,red, black);
+}
+@media screen and (max-width: 600px){
+    .look{
+        width:100%;
+        border-right: none;
+    } 
+}
+{% endblock style %}
+{% block body %}
+  <div class="container my-4 look col-md-6">
+      <h2><span style="border-bottom:2px double black ;">Contact Us</span></h2>
+      <form method='post' action='/contact'>
+      {% csrf_token %}
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" class="form-control" id="name" name="name" aria-describedby="name">
+          
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name='email' aria-describedby="emailHelp">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="phone" class="form-control" id="phone" name='phone'>
+        </div>
+        <div class="form-group">
+          <label for="content">Tell ! How We Become Better</label>
+          <textarea class="form-control" name="content" id="content" cols="30" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      </div>
+    </div>
+{% endblock body %}

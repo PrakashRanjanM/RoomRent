@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>{% block title %}{% endblock title %}</title>
+    <style>{% block style %}{% endblock style %}</style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">RRS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item {% block homeactive %}{% endblock homeactive %}">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item {% block contactactive %}{% endblock contactactive %}">
+              <a class="nav-link" href="/contact">Contact</a>
+            </li>
+            <li class="nav-item {% block aboutactive %}{% endblock aboutactive %}">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item {% block servicesactive %}{% endblock servicesactive %}">
+              <a class="nav-link" href="/services">Services</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+           <!-- Button to trigger signUp modal -->
+      {% if user.is_authenticated %}
+      <!-- Example single danger button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle mx-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{request.user}}
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="/logout">Log Out</a>
+  </div>
+</div>
+      
+      </span>
+      {% else %}
+      <button type="button" class="btn btn-outline-danger mx-2" data-toggle="modal" data-target="#signUpModal">
+        Sign Up
+      </button>
+      <button type="button" class="btn btn-outline-danger mx-2" data-toggle="modal" data-target="#logInModal">
+        Log In
+      </button>
+      
+      {% endif %}
+        </div>
+      </nav>
+      {% for message in messages %}
+      <div class="alert alert-{{message.tags}} mb-0 alert-dismissible fade show" role="alert">
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+
+<!-- LIst Your Rooms And Flats Modal -->
+<div class="modal fade" id="lyf" tabindex="-1" role="dialog" aria-labelledby="lyfLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="lyfLabel">Enter The Details Of Your Room</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/LYF" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="OwnerName">Name</label>
+            <input type="text" class="form-control" id="OwnerName" name="OwnerName">
+          </div>
+          <div class="form-group">
+            <label for="RoomTitle">Title Of Room</label>
+            <input type="text" class="form-control" id="RoomTitle" name="RoomTitle" placeholder="eg:- 2BHK Marbled flooring">
+          </div>
+          <div class="form-group">
+            <label for="OwnerNumber">Mobile Number</label>
+            <input type="tel" class="form-control" id="OwnerNumber" name="OwnerNumber">
+          </div>
+          <div class="form-group">
+            <label for="OwnerEmail">Email address</label>
+            <input type="email" class="form-control" id="OwnerEmail" name="OwnerEmail">
+          </div>
+          <div class="form-group">
+            <label for="OwnerPostalCode">Postal Code/Pin Code</label>
+            <input type="number" class="form-control" id="OwnerPostalCode" name="OwnerPostalCode">
+          </div>
+          <div class="form-group">
+            <label for="OwnerAddress">Flat/Room address</label>
+            <input type="text" class="form-control" id="OwnerPostalCode" name="OwnerAddress">
+          </div>
+          <div class="form-group">
+            <label for="OwnerPrice">Rent Per Month</label>
+            <input type="number" class="form-control" id="OwnerPrice" name="OwnerPrice">
+          </div>
+          <div class="form-group">
+            <h5>Number Of Rooms</h5>
+            &nbsp;<input type="radio"  id="_1BHK" value="_1BHK" name="OwnerRooms">&nbsp;
+            <label for="_1BHK">1 BHK</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio"  id="_2BHK" value="_2BHK" name="OwnerRooms">&nbsp;
+            <label for="_2BHK">2 BHK</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio"  id="_3BHK" value="_3BHK" name="OwnerRooms">&nbsp;
+            <label for="_3BHK">3 BHK</label>
+          </div>
+          <div class="form-group">
+            <h5>Type Of Flooring</h5>
+            <input type="radio"  id="None" value="None" name="Flooring">&nbsp;
+            <label for="None">None</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio"  id="Marble" value="Marble" name="Flooring">&nbsp;
+            <label for="Marble">Marble</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio"  id="Tiles" value="Tiles" name="Flooring">
+            <label for="Tiles">Tiles</label>
+          </div>
+          <div class="form-group">
+            <label for="Floor">Floor of Room</label>
+            <input type="number" name="Floor" id="Floor" placeholder="Floor">
+          </div>
+          <div class="form-group">
+            <label for="TOB">Type Of Building</label>
+            <select name="TOB" id="TOB">
+              <option selected>Choose</option>
+              <option value="Personal Building">Personal Building</option>
+              <option value="Apartment">Apartment</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="Hall">Upload Image of Hall</label>
+            <input type="file" name="Hall" id="Hall">
+            <label for="Bedroom_1">Upload Image of First Bedroom</label>
+            <input type="file" name="Bedroom_1" id="Bedroom_1">
+            <label for="Bedroom_2">Upload Image second Bedroom</label>
+            <input type="file" name="Bedroom_2" id="Bedroom_2">
+            <label for="Bedroom_3">Upload Image Third Bedroom</label>
+            <input type="file" name="Bedroom_3" id="Bedroom_3">
+            <label for="Kitchen">Upload Image of Kitchen</label>
+            <input type="file" name="Kitchen" id="Kitchen">
+            <label for="Bathroom">Upload Image of Bathroom</label>
+            <input type="file" name="Bathroom" id="Bathroom">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!--signUp Modal -->
+  <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog"  aria-labelledby="signUpModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signUpModalLabel">Sign Up to TechBhaiya</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action='/signup' method='post'>
+          {% csrf_token %}
+            <div class="form-group">
+              <label for="username">User Name</label>
+              <input type="text" class="form-control" id="username" name='username' placeholder='Enter a Username'
+                aria-describedby="UserHelp" required>
+              <label for="fname">First Name</label>
+              <input type="text" class="form-control" id="fname" name='fname' placeholder='Enter Your Name'
+                aria-describedby="UserHelp" required>
+              <label for="lname">Last Name</label>
+              <input type="text" class="form-control" id="lname" name='lname' placeholder='Enter Your Name'
+                aria-describedby="UserHelp" required>
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" name='email' placeholder='Enter Your Email'
+                aria-describedby="emailHelp" required>
+            </div>
+            <div class="form-group">
+              <label for="pass1">Password</label>
+              <input type="password" class="form-control" id="pass1" name='pass1' placeholder='Enter Your Password' required>
+            </div>
+            <div class="form-group">
+              <label for="pass2">Confirm Password</label>
+              <input type="password" class="form-control" id="pass2" name='pass2' placeholder='Re-Enter Your Password' required>
+            </div>
+            <button type="reset" class='btn btn-outline-primary'>Reset</button>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- LogIn Modal-->
+    <div class="modal fade" id="logInModal" tabindex="-1" role="dialog"            aria-labelledby="logInModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logInModalLabel">Log In to TechBhaiya</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action='/login' method='post'> 
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="logInusername">User Name</label>
+              <input type="text" class="form-control" id="logInusername" name='logInusername' placeholder='Enter a Username'
+                aria-describedby="UserHelp" required>
+            </div>
+            <div class="form-group">
+              <label for="logInpass">Password</label>
+              <input type="password" class="form-control" id="logInpass" name='logInpass' placeholder='Enter Your Password' required>
+            </div>
+            <button type="reset" class='btn btn-outline-primary'>Reset</button>
+            <button type="submit" class="btn btn-primary">Log In</button>
+          </form>
+        </div>
+        </div>
+    </div>
+  </div>
+
+      {% block body %} {% endblock body %}
+      {% block js %} {% endblock js %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
